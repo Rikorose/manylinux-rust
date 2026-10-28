@@ -20,4 +20,13 @@ jobs:
           install: true
       - name: Build
         run: |
-          docker build --build-arg MATURIN_VERSION=1.8 .
+          docker buildx build --load --tag manylinux-rust:ci \
+            --build-arg MATURIN_VERSION=1.8 .
+      - name: Verify installed toolchain
+        run: |
+          docker run --rm --entrypoint /bin/sh manylinux-rust:ci -ec '
+            cargo xwin --version
+            for VER in 3.14 3.13 3.12 3.11 3.10; do
+              python"$VER" -m maturin --version
+            done
+          '
