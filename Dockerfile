@@ -13,10 +13,12 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 # Add .cargo/bin to PATH
 ENV PATH="/root/.cargo/bin:${PATH}"
 
-RUN CC_x86_64_unknown_linux_gnu=gcc \
+ENV CC_x86_64_unknown_linux_gnu=gcc \
     AR_x86_64_unknown_linux_gnu=ar \
-    CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER=gcc \
-    cargo install --locked cargo-xwin
+    CXX_x86_64_unknown_linux_gnu=g++ \
+    CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER=gcc
+
+RUN cargo install --locked cargo-xwin
 
 RUN rustup component add llvm-tools-preview \
   && rustup target add x86_64-pc-windows-gnu x86_64-unknown-linux-gnu
