@@ -24,7 +24,10 @@ RUN rustup component add llvm-tools-preview \
   && rustup target add x86_64-pc-windows-gnu x86_64-unknown-linux-gnu
 
 RUN set -e; \
-    for VER in 3.14 3.13 3.12 3.11 3.10; do "python$VER" -m pip install --no-cache-dir maturin==${MATURIN_VERSION}; done \
+    for VER in 3.14 3.13 3.12 3.11 3.10; do \
+      "python$VER" -m pip install --no-cache-dir "maturin==${MATURIN_VERSION}" "certifi>=2026.10.19"; \
+      "python$VER" -c 'from importlib.metadata import version; import certifi; print("certifi", version("certifi"), certifi.where())'; \
+    done \
   && mkdir /io
 
 WORKDIR /io
