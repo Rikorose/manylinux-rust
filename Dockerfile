@@ -25,7 +25,7 @@ RUN rustup component add llvm-tools-preview \
 
 RUN set -e; \
     for VER in 3.14 3.13 3.12 3.11 3.10; do \
-      "python$VER" -m pip install --no-cache-dir "maturin==${MATURIN_VERSION}" "certifi>=2026.10.19"; \
+      "python$VER" -m pip install --no-cache-dir --upgrade "pip>=26.2.2" "maturin==${MATURIN_VERSION}" "certifi>=2026.10.19"; \
       "python$VER" -c 'from importlib.metadata import version; import certifi; print("certifi", version("certifi"), certifi.where())'; \
     done \
   && mkdir /io
